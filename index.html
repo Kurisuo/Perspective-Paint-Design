@@ -164,7 +164,7 @@
             </div>
         </div>
         
-        <div class="service-card">
+        <div class="service-card mobile-hide-service">
             <div class="service-card-bg" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('media/trieste-cabinets-and-interior.jpg');"></div>
             <div class="service-card-content">
                 <h3>Cabinet Refinishing</h3>
@@ -180,13 +180,20 @@
             </div>
         </div>
         
-        <div class="service-card">
+        <div class="service-card mobile-hide-service">
             <div class="service-card-bg" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('media/house_5.jpg');"></div>
             <div class="service-card-content">
                 <h3>Deck & Fence Staining</h3>
                 <a href="contact.html#estimate" class="learn-more-btn">Learn More</a>
             </div>
         </div>
+    </div>
+    
+    <!-- Mobile Gallery Button -->
+    <div class="mobile-gallery-cta">
+        <a href="Gallery.html" class="btn-gallery-mobile">
+            <i class="fa-solid fa-images"></i> View Our Gallery
+        </a>
     </div>
 </section>
 
@@ -435,7 +442,7 @@
                         
                         <div class="team-card">
                             <div class="team-image">
-                                <img src="media/gregoriozarraga.png" alt="Gregorio">
+                                <img src="media/gregoriozarraga.jpg" alt="Gregorio">
                                 <div class="team-description">
                                     <p>Gregorio has helped lead our team with years of experience. He specializes in color matching and quality consistency.</p>
                                 </div>
@@ -448,7 +455,7 @@
                         
                         <div class="team-card">
                             <div class="team-image">
-                                <img src="media/Bulmaro.png" alt="Bulmaro Rodriguez">
+                                <img src="media/Bulmaro.jpg" alt="Bulmaro Rodriguez">
                                 <div class="team-description">
                                     <p>Bulmaro is our exterior painting expert. He ensures lasting results that withstand even San Diego's changing climate.</p>
                                 </div>
@@ -461,8 +468,8 @@
                         
 
                         <div class="team-card">
-                            <div class="team-image">
-                                <img src="media/Atony.JPG" alt="Antony">
+                            <div class="team-image">55
+                                <img src="media/Antony.jpg" alt="Antony">
                                 <div class="team-description">
                                     <p>Antony is our painting assistant! He excels at meeting deadlines!</p>
                                 </div>
@@ -476,7 +483,7 @@
                        
                         <div class="team-card">
                             <div class="team-image">
-                                <img src="media/antonio.png" alt="Antonio">
+                                <img src="media/antonio.jpg" alt="Antonio">
                                 <div class="team-description">
                                     <p>Antonio is a hard working painter. Well known for his charismatic nature and excellent painting abilities!</p>
                                 </div>
@@ -525,8 +532,19 @@
             <p class="subtext">Don't just take our word for it – see what our clients have to say about their experience working with us.</p>
         </div>
         
+        <!-- Mobile Navigation for Reviews -->
+        <div class="review-mobile-nav">
+            <button class="review-nav-btn prev" id="reviewPrev">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="review-dots" id="reviewDots"></div>
+            <button class="review-nav-btn next" id="reviewNext">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+        
         <div class="testimonials-grid">
-            <div class="testimonial-card">
+            <div class="testimonial-card active">
                 <div class="testimonial-content">
                     <div class="testimonial-stars">
                         <i class="fa-solid fa-star"></i>
@@ -617,26 +635,51 @@
                 </div>
                 
                 <div class="color-options">
+                    <!-- Always visible colors -->
                     <div class="color-option" style="background: #E8E8E8" data-color="#E8E8E8"></div>
                     <div class="color-option" style="background: #F5F5DC" data-color="#F5F5DC"></div>
                     <div class="color-option" style="background: #D3D3D3" data-color="#D3D3D3"></div>
                     <div class="color-option" style="background: #778899" data-color="#778899"></div>
-                    <div class="color-option" style="background: #708090" data-color="#708090"></div>
-                    <div class="color-option" style="background: #2C3E50" data-color="#2C3E50"></div>
-                    <div class="color-option" style="background: #34495E" data-color="#34495E"></div>
-                    <div class="color-option" style="background: #95A5A6" data-color="#95A5A6"></div>
-                    <div class="color-option" style="background: #BDC3C7" data-color="#BDC3C7"></div>
-                    <div class="color-option" style="background: #ECF0F1" data-color="#ECF0F1"></div>
-                    <div class="color-option" style="background: #E74C3C" data-color="#E74C3C"></div>
-                    <div class="color-option" style="background: #C0392B" data-color="#C0392B"></div>
-                    <div class="color-option" style="background: #3498DB" data-color="#3498DB"></div>
-                    <div class="color-option" style="background: #2980B9" data-color="#2980B9"></div>
-                    <div class="color-option" style="background: #1ABC9C" data-color="#1ABC9C"></div>
-                    <div class="color-option" style="background: #16A085" data-color="#16A085"></div>
-                    <div class="color-option" style="background: #27AE60" data-color="#27AE60"></div>
-                    <div class="color-option" style="background: #F39C12" data-color="#F39C12"></div>
-                    <div class="color-option" style="background: #D68910" data-color="#D68910"></div>
-                    <div class="color-option" style="background: #F4ECF7" data-color="#F4ECF7"></div>
+                    
+                    <!-- Tablet and up (768px+) -->
+                    <div class="color-option tablet-show" style="background: #708090" data-color="#708090"></div>
+                    <div class="color-option tablet-show" style="background: #2C3E50" data-color="#2C3E50"></div>
+                    <div class="color-option tablet-show" style="background: #34495E" data-color="#34495E"></div>
+                    <div class="color-option tablet-show" style="background: #95A5A6" data-color="#95A5A6"></div>
+                    <div class="color-option tablet-show" style="background: #BDC3C7" data-color="#BDC3C7"></div>
+                    <div class="color-option tablet-show" style="background: #ECF0F1" data-color="#ECF0F1"></div>
+                    <div class="color-option tablet-show" style="background: #E74C3C" data-color="#E74C3C"></div>
+                    <div class="color-option tablet-show" style="background: #C0392B" data-color="#C0392B"></div>
+                    <div class="color-option tablet-show" style="background: #3498DB" data-color="#3498DB"></div>
+                    <div class="color-option tablet-show" style="background: #2980B9" data-color="#2980B9"></div>
+                    <div class="color-option tablet-show" style="background: #1ABC9C" data-color="#1ABC9C"></div>
+                    <div class="color-option tablet-show" style="background: #16A085" data-color="#16A085"></div>
+                    
+                    <!-- Desktop and up (1024px+) -->
+                    <div class="color-option desktop-show" style="background: #27AE60" data-color="#27AE60"></div>
+                    <div class="color-option desktop-show" style="background: #F39C12" data-color="#F39C12"></div>
+                    <div class="color-option desktop-show" style="background: #D68910" data-color="#D68910"></div>
+                    <div class="color-option desktop-show" style="background: #F4ECF7" data-color="#F4ECF7"></div>
+                    <div class="color-option desktop-show" style="background: #8B4513" data-color="#8B4513"></div>
+                    <div class="color-option desktop-show" style="background: #CD853F" data-color="#CD853F"></div>
+                    <div class="color-option desktop-show" style="background: #DEB887" data-color="#DEB887"></div>
+                    <div class="color-option desktop-show" style="background: #F0E68C" data-color="#F0E68C"></div>
+                    
+                    <!-- Large desktop (1440px+) -->
+                    <div class="color-option large-desktop-show" style="background: #FFE4B5" data-color="#FFE4B5"></div>
+                    <div class="color-option large-desktop-show" style="background: #FFDEAD" data-color="#FFDEAD"></div>
+                    <div class="color-option large-desktop-show" style="background: #F5DEB3" data-color="#F5DEB3"></div>
+                    <div class="color-option large-desktop-show" style="background: #FFF8DC" data-color="#FFF8DC"></div>
+                    <div class="color-option large-desktop-show" style="background: #FFEBCD" data-color="#FFEBCD"></div>
+                    <div class="color-option large-desktop-show" style="background: #FAF0E6" data-color="#FAF0E6"></div>
+                    <div class="color-option large-desktop-show" style="background: #FAEBD7" data-color="#FAEBD7"></div>
+                    <div class="color-option large-desktop-show" style="background: #FFE4E1" data-color="#FFE4E1"></div>
+                    
+                    <!-- Extra large screens (1920px+) -->
+                    <div class="color-option xl-desktop-show" style="background: #9370DB" data-color="#9370DB"></div>
+                    <div class="color-option xl-desktop-show" style="background: #BA55D3" data-color="#BA55D3"></div>
+                    <div class="color-option xl-desktop-show" style="background: #FF69B4" data-color="#FF69B4"></div>
+                    <div class="color-option xl-desktop-show" style="background: #FFC0CB" data-color="#FFC0CB"></div>
                 </div>
                 
                 <!-- Custom Color Picker Section -->
@@ -804,13 +847,13 @@
                     </div>
                 </div>
                 <div class="footer-social" style="display: flex; justify-content: center; align-items: center; width: 100%; gap: 25px; margin-top: 40px;">
-                    <a href="https://www.facebook.com/perspectivepainting" target="_blank" rel="noopener noreferrer" aria-label="Facebook" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                    <a href="https://www.facebook.com/perspectivecoatings/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
                         <img src="media/facebook-icon.png" alt="Facebook" style="width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.7; transition: all 0.3s ease;">
                     </a>
                     <a href="https://www.instagram.com/perspectivepaintdesign/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
                         <img src="media/instagram-icon.png" alt="Instagram" style="width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.7; transition: all 0.3s ease;">
                     </a>
-                    <a href="https://www.linkedin.com/in/jon-hall-148702314/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                    <a href="https://www.linkedin.com/in/jon-hall-148702314" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
                         <img src="media/linkedin-icon.png" alt="LinkedIn" style="width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.7; transition: all 0.3s ease;">
                     </a>
                     <a href="https://www.yelp.com/biz/perspective-painting-san-diego" target="_blank" rel="noopener noreferrer" aria-label="Yelp" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
@@ -852,7 +895,7 @@
                 </p>
                 <p style="color: #999;">
                     <i class="fa-solid fa-envelope" style="color: var(--primary); margin-right: 10px;"></i>
-                    jon.hall11@gmail.com
+                    hall.jon12@gmail.com
                 </p>
             </div>
         </div>

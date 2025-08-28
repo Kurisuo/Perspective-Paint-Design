@@ -770,6 +770,38 @@ header.scrolled {
    6. SERVICES SECTION
    ========================================================================== */
 
+/* Mobile Gallery CTA - Hidden by default */
+.mobile-gallery-cta {
+    display: none;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn-gallery-mobile {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--primary);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(46, 95, 141, 0.3);
+}
+
+.btn-gallery-mobile:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+}
+
+.btn-gallery-mobile i {
+    font-size: 18px;
+}
+
 .services-overview {
     padding: 100px 20px;
     background: var(--gradient-main);
@@ -1577,6 +1609,60 @@ header.scrolled {
    11. TESTIMONIALS SECTION - STATIC 4 REVIEWS LAYOUT
    ========================================================================== */
 
+/* Mobile Review Navigation */
+.review-mobile-nav {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.review-nav-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.review-nav-btn:hover {
+    background: var(--accent);
+    transform: scale(1.1);
+}
+
+.review-nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.review-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.review-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ddd;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.review-dot.active {
+    background: var(--primary);
+    width: 30px;
+    border-radius: 5px;
+}
+
    .testimonials-section {
     padding: 100px 20px;
     background: #1A1A1A;
@@ -1810,8 +1896,39 @@ header.scrolled {
         font-size: 14px;
     }
     
+    /* Mobile Review Carousel */
+    .review-mobile-nav {
+        display: flex;
+    }
+    
     .testimonials-grid {
         gap: 20px;
+        display: block;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .testimonial-card {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .testimonial-card.active {
+        display: block;
+        opacity: 1;
+        animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+        from {
+            transform: translateX(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
     }
     
     .testimonial-content {
@@ -2542,7 +2659,85 @@ footer::after {
 }
 
 /* ==========================================================================
-   17. RESPONSIVE DESIGN
+   17. RESPONSIVE COLOR PALETTE
+   ========================================================================== */
+
+/* Default: Hide responsive color options */
+.color-option.tablet-show,
+.color-option.desktop-show,
+.color-option.large-desktop-show,
+.color-option.xl-desktop-show {
+    display: none;
+}
+
+/* Tablet and up (769px+) */
+@media (min-width: 769px) {
+    .color-option.tablet-show {
+        display: block;
+    }
+    
+    .color-options {
+        grid-template-columns: repeat(8, 1fr);  /* 16 colors / 2 rows = 8 columns */
+        gap: 15px;
+    }
+}
+
+/* Desktop and up (1024px+) */
+@media (min-width: 1024px) {
+    .color-option.desktop-show {
+        display: block;
+    }
+    
+    .color-options {
+        grid-template-columns: repeat(12, 1fr);  /* 24 colors / 2 rows = 12 columns */
+        gap: 15px;
+    }
+    
+    .color-palette-container {
+        max-width: 1200px;
+    }
+}
+
+/* Large desktop (1440px+) */
+@media (min-width: 1440px) {
+    .color-option.large-desktop-show {
+        display: block;
+    }
+    
+    .color-options {
+        grid-template-columns: repeat(16, 1fr);  /* 32 colors / 2 rows = 16 columns */
+        gap: 18px;
+    }
+    
+    .color-palette-container {
+        max-width: 1400px;
+        padding: 50px;
+    }
+}
+
+/* Extra large screens (1920px+) */
+@media (min-width: 1920px) {
+    .color-option.xl-desktop-show {
+        display: block;
+    }
+    
+    .color-options {
+        grid-template-columns: repeat(18, 1fr);  /* 36 colors / 2 rows = 18 columns */
+        gap: 20px;
+    }
+    
+    .color-palette-container {
+        max-width: 1600px;
+        padding: 60px;
+    }
+    
+    .color-preview {
+        height: 350px;
+    }
+}
+
+/* ==========================================================================
+   18. RESPONSIVE DESIGN
    ========================================================================== */
 
 @media (max-width: 1200px) {
@@ -2644,6 +2839,19 @@ footer::after {
 }
 
 @media (max-width: 768px) {
+    /* Color Palette Tablet Layout */
+    .color-options {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+    }
+    
+    .color-option.tablet-show,
+    .color-option.desktop-show,
+    .color-option.large-desktop-show,
+    .color-option.xl-desktop-show {
+        display: none !important;
+    }
+    
     html, body {
         background: #0D0D0D !important;
     }
@@ -2917,6 +3125,16 @@ footer::after {
         height: 300px;
     }
     
+    /* Hide specific service cards on mobile */
+    .service-card.mobile-hide-service {
+        display: none;
+    }
+    
+    /* Show mobile gallery button */
+    .mobile-gallery-cta {
+        display: block;
+    }
+    
     .testimonials-header {
         text-align: center;
     }
@@ -2951,6 +3169,40 @@ footer::after {
     
     .team-card {
         flex: 0 0 100%;
+    }
+    
+    /* Color Palette Mobile Layout */
+    .color-options {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .color-option.tablet-show,
+    .color-option.desktop-show,
+    .color-option.large-desktop-show,
+    .color-option.xl-desktop-show {
+        display: none !important;
+    }
+    
+    .custom-color-section {
+        flex-direction: column !important;
+        gap: 15px !important;
+        padding: 15px !important;
+    }
+    
+    .custom-color-section span:first-child {
+        font-size: 12px !important;
+    }
+    
+    .custom-color-section input[type="color"] {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    
+    .custom-color-section #customColorValue {
+        font-size: 12px !important;
+        padding: 8px 15px !important;
     }
     
     .team-image {
@@ -3175,6 +3427,25 @@ header {
     
     .company-name .painting {
         font-size: 16px;
+        display: inline-block; /* Ensure it shows on tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .company-name {
+        font-size: 16px;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+    }
+    
+    .company-name .perspective {
+        font-size: 15px;
+    }
+    
+    .company-name .painting {
+        font-size: 12px;
+        display: block;
     }
 }
 
@@ -3188,16 +3459,19 @@ header {
     }
     
     .company-name {
-        font-size: 16px;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
     }
     
     .company-name .perspective {
-        font-size: 15px;
+        font-size: 13px;
     }
     
     .company-name .painting {
-        font-size: 14px;
-        display: none; /* Hide on very small screens to save space */
+        font-size: 11px;
+        display: block; /* Show on small screens */
     }
     
     .mobile-menu-btn {
@@ -3384,6 +3658,86 @@ section {
 @media (max-width: 768px) {
     .process-step::after {
         display: none !important; /* Remove connecting lines on mobile */
+    }
+    
+    .process-section {
+        padding: 60px 15px;
+    }
+    
+    .process-section .section-header {
+        margin-bottom: 40px;
+    }
+    
+    .process-section .section-header h2 {
+        font-size: 32px;
+    }
+    
+    .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+    
+    .process-step {
+        padding: 0 5px;
+    }
+    
+    .step-number {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    .process-step h3 {
+        font-size: 15px;
+        margin-bottom: 5px;
+    }
+    
+    .process-step p {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+    
+    /* Center the 7th process step on mobile only */
+    .process-step:nth-child(7) {
+        grid-column: 1 / -1;
+        margin: 0 auto;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .process-section {
+        padding: 50px 10px;
+    }
+    
+    .process-section .section-header h2 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+    
+    .process-section .section-header p {
+        font-size: 14px;
+    }
+    
+    .process-grid {
+        gap: 20px;
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+    
+    .process-step h3 {
+        font-size: 14px;
+    }
+    
+    .process-step p {
+        font-size: 11px;
+        line-height: 1.3;
     }
 }
 

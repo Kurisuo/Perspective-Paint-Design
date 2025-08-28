@@ -208,13 +208,16 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Special handler for logo click
-document.getElementById('logoLink').addEventListener('click', function(e) {
-    e.preventDefault();
-    window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
+const logoLink = document.getElementById('logoLink');
+if (logoLink) {
+    logoLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({ 
+            top: 0, 
+            behavior: 'smooth' 
+        });
     });
-});
+}
 
 // Video Controls - FIXED AND ENHANCED
 document.addEventListener('DOMContentLoaded', function() {
@@ -369,55 +372,59 @@ let prev = document.getElementById('prev');
 let thumbnails = document.querySelectorAll('.thumbnail .item');
 let countItem = items.length;
 let itemActive = 0;
+let refreshInterval;
 
-// Next button click
-next.onclick = function(){
-    itemActive = itemActive + 1;
-    if(itemActive >= countItem){
-        itemActive = 0;
+// Only initialize slider if elements exist
+if (items.length > 0 && next && prev && thumbnails.length > 0) {
+    // Next button click
+    next.onclick = function(){
+        itemActive = itemActive + 1;
+        if(itemActive >= countItem){
+            itemActive = 0;
+        }
+        showSlider();
     }
-    showSlider();
-}
 
-// Previous button click
-prev.onclick = function(){
-    itemActive = itemActive - 1;
-    if(itemActive < 0){
-        itemActive = countItem - 1;
+    // Previous button click
+    prev.onclick = function(){
+        itemActive = itemActive - 1;
+        if(itemActive < 0){
+            itemActive = countItem - 1;
+        }
+        showSlider();
     }
-    showSlider();
-}
 
-// Auto play slider
-let refreshInterval = setInterval(() => {
-    next.click();
-}, 5000);
-
-function showSlider(){
-    // Remove old active class
-    let itemActiveOld = document.querySelector('.slider .list .item.active');
-    let thumbnailActiveOld = document.querySelector('.thumbnail .item.active');
-    itemActiveOld.classList.remove('active');
-    thumbnailActiveOld.classList.remove('active');
-
-    // Add new active class
-    items[itemActive].classList.add('active');
-    thumbnails[itemActive].classList.add('active');
-    
-    // Clear and reset auto play timer
-    clearInterval(refreshInterval);
+    // Auto play slider
     refreshInterval = setInterval(() => {
         next.click();
     }, 5000);
-}
 
-// Click on thumbnail
-thumbnails.forEach((thumbnail, index) => {
-    thumbnail.addEventListener('click', () => {
-        itemActive = index;
-        showSlider();
+    function showSlider(){
+        // Remove old active class
+        let itemActiveOld = document.querySelector('.slider .list .item.active');
+        let thumbnailActiveOld = document.querySelector('.thumbnail .item.active');
+        if (itemActiveOld) itemActiveOld.classList.remove('active');
+        if (thumbnailActiveOld) thumbnailActiveOld.classList.remove('active');
+
+        // Add new active class
+        if (items[itemActive]) items[itemActive].classList.add('active');
+        if (thumbnails[itemActive]) thumbnails[itemActive].classList.add('active');
+        
+        // Clear and reset auto play timer
+        clearInterval(refreshInterval);
+        refreshInterval = setInterval(() => {
+            next.click();
+        }, 5000);
+    }
+
+    // Click on thumbnail
+    thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', () => {
+            itemActive = index;
+            showSlider();
+        });
     });
-});
+}
 
 // Team Carousel
 let currentTeamSlide = 0;
@@ -427,48 +434,60 @@ const totalTeamMembers = teamCards.length;
 const teamDots = document.querySelectorAll('.team-dot');
 let visibleTeamCards = window.innerWidth > 1200 ? 4 : window.innerWidth > 768 ? 3 : window.innerWidth > 480 ? 2 : 1;
 
-function updateTeamView() {
-    visibleTeamCards = window.innerWidth > 1200 ? 4 : window.innerWidth > 768 ? 3 : window.innerWidth > 480 ? 2 : 1;
-    const maxSlides = Math.ceil(totalTeamMembers / visibleTeamCards);
+// Only initialize if team elements exist
+if (teamGrid && teamCards.length > 0) {
+    function updateTeamView() {
+        visibleTeamCards = window.innerWidth > 1200 ? 4 : window.innerWidth > 768 ? 3 : window.innerWidth > 480 ? 2 : 1;
+        const maxSlides = Math.ceil(totalTeamMembers / visibleTeamCards);
+        
+        // Update dots
+        const dotsContainer = document.getElementById('teamDots');
+        if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < maxSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = i === currentTeamSlide ? 'team-dot active' : 'team-dot';
+                dot.setAttribute('data-index', i);
+                dot.addEventListener('click', () => {
+                    currentTeamSlide = i;
+                    updateTeamView();
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+        
+        // Update carousel position
+        const offset = -(currentTeamSlide * 100);
+        teamGrid.style.transform = `translateX(${offset}%)`;
+    }
+
+    const teamNext = document.getElementById('teamNext');
+    const teamPrev = document.getElementById('teamPrev');
     
-    // Update dots
-    const dotsContainer = document.getElementById('teamDots');
-    dotsContainer.innerHTML = '';
-    for (let i = 0; i < maxSlides; i++) {
-        const dot = document.createElement('button');
-        dot.className = i === currentTeamSlide ? 'team-dot active' : 'team-dot';
-        dot.setAttribute('data-index', i);
-        dot.addEventListener('click', () => {
-            currentTeamSlide = i;
+    if (teamNext) {
+        teamNext.addEventListener('click', () => {
+            const maxSlides = Math.ceil(totalTeamMembers / visibleTeamCards) - 1;
+            currentTeamSlide = (currentTeamSlide + 1) > maxSlides ? 0 : currentTeamSlide + 1;
             updateTeamView();
         });
-        dotsContainer.appendChild(dot);
     }
-    
-    // Update carousel position
-    const offset = -(currentTeamSlide * 100);
-    teamGrid.style.transform = `translateX(${offset}%)`;
+
+    if (teamPrev) {
+        teamPrev.addEventListener('click', () => {
+            const maxSlides = Math.ceil(totalTeamMembers / visibleTeamCards) - 1;
+            currentTeamSlide = currentTeamSlide - 1 < 0 ? maxSlides : currentTeamSlide - 1;
+            updateTeamView();
+        });
+    }
+
+    // Update on window resize
+    window.addEventListener('resize', () => {
+        updateTeamView();
+    });
+
+    // Initialize team view
+    updateTeamView();
 }
-
-document.getElementById('teamNext').addEventListener('click', () => {
-    const maxSlides = Math.ceil(totalTeamMembers / visibleTeamCards) - 1;
-    currentTeamSlide = (currentTeamSlide + 1) > maxSlides ? 0 : currentTeamSlide + 1;
-    updateTeamView();
-});
-
-document.getElementById('teamPrev').addEventListener('click', () => {
-    const maxSlides = Math.ceil(totalTeamMembers / visibleTeamCards) - 1;
-    currentTeamSlide = currentTeamSlide - 1 < 0 ? maxSlides : currentTeamSlide - 1;
-    updateTeamView();
-});
-
-// Update on window resize
-window.addEventListener('resize', () => {
-    updateTeamView();
-});
-
-// Initialize team view
-updateTeamView();
 
 // ============================================================
 // TESTIMONIALS CAROUSEL CODE REMOVED 
@@ -479,18 +498,183 @@ updateTeamView();
 const colorOptions = document.querySelectorAll('.color-option');
 const colorPreview = document.getElementById('colorPreview');
 
-colorOptions.forEach(option => {
-    option.addEventListener('click', function() {
-        const color = this.getAttribute('data-color');
-        
-        // Update preview
-        colorPreview.style.backgroundColor = color;
-        colorPreview.innerHTML = `<span class="color-preview-label">${color}</span>`;
-        
-        // Update active state
-        colorOptions.forEach(opt => opt.classList.remove('active'));
-        this.classList.add('active');
+// Only initialize if color elements exist
+if (colorOptions.length > 0 && colorPreview) {
+    colorOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const color = this.getAttribute('data-color');
+            
+            // Update preview
+            colorPreview.style.backgroundColor = color;
+            colorPreview.innerHTML = `<span class="color-preview-label">${color}</span>`;
+            
+            // Update active state
+            colorOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+        });
     });
+}
+
+// Number Counter Animation
+function animateCounter(element, start, end, duration, suffix = '') {
+    let startTime = null;
+    const isPercentage = suffix === '%';
+    
+    const animation = (currentTime) => {
+        if (!startTime) startTime = currentTime;
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuad = progress => progress * (2 - progress);
+        const currentValue = Math.floor(easeOutQuad(progress) * (end - start) + start);
+        
+        element.textContent = currentValue + suffix;
+        
+        if (progress < 1) {
+            requestAnimationFrame(animation);
+        } else {
+            element.textContent = end + suffix;
+        }
+    };
+    
+    requestAnimationFrame(animation);
+}
+
+// Initialize counters with Intersection Observer
+function initializeCounters() {
+    const counters = [
+        { selector: '.about-badge .number', value: 800, suffix: '+' },
+        { selector: '.about-stats .stat:nth-child(1) .stat-number', value: 800, suffix: '+' },
+        { selector: '.about-stats .stat:nth-child(2) .stat-number', value: 15, suffix: '+' },
+        { selector: '.about-stats .stat:nth-child(3) .stat-number', value: 100, suffix: '%' }
+    ];
+    
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px'
+    };
+    
+    const animatedElements = new Set();
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !animatedElements.has(entry.target)) {
+                animatedElements.add(entry.target);
+                
+                const counterInfo = counters.find(c => entry.target.matches(c.selector));
+                if (counterInfo) {
+                    // Start from 0 and animate to the target value
+                    animateCounter(entry.target, 0, counterInfo.value, 1200, counterInfo.suffix);
+                }
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all counter elements
+    counters.forEach(counter => {
+        const element = document.querySelector(counter.selector);
+        if (element) {
+            // Set initial value to 0
+            element.textContent = '0' + counter.suffix;
+            observer.observe(element);
+        }
+    });
+}
+
+// Initialize counters when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCounters();
+});
+
+// Mobile Review Carousel
+document.addEventListener('DOMContentLoaded', function() {
+    const reviewCards = document.querySelectorAll('.testimonial-card');
+    const reviewNext = document.getElementById('reviewNext');
+    const reviewPrev = document.getElementById('reviewPrev');
+    const reviewDotsContainer = document.getElementById('reviewDots');
+    
+    // Only initialize if elements exist and we're on mobile
+    if (reviewCards.length > 0 && reviewNext && reviewPrev && reviewDotsContainer) {
+        let currentReview = 0;
+        
+        // Create dots
+        function createDots() {
+            reviewDotsContainer.innerHTML = '';
+            for (let i = 0; i < reviewCards.length; i++) {
+                const dot = document.createElement('button');
+                dot.className = i === currentReview ? 'review-dot active' : 'review-dot';
+                dot.addEventListener('click', () => {
+                    showReview(i);
+                });
+                reviewDotsContainer.appendChild(dot);
+            }
+        }
+        
+        // Show specific review
+        function showReview(index) {
+            // Hide all reviews
+            reviewCards.forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Update dots
+            const dots = reviewDotsContainer.querySelectorAll('.review-dot');
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            // Show current review
+            currentReview = index;
+            reviewCards[currentReview].classList.add('active');
+            if (dots[currentReview]) {
+                dots[currentReview].classList.add('active');
+            }
+            
+            // Update button states
+            reviewPrev.disabled = currentReview === 0;
+            reviewNext.disabled = currentReview === reviewCards.length - 1;
+        }
+        
+        // Next button
+        reviewNext.addEventListener('click', () => {
+            if (currentReview < reviewCards.length - 1) {
+                showReview(currentReview + 1);
+            }
+        });
+        
+        // Previous button
+        reviewPrev.addEventListener('click', () => {
+            if (currentReview > 0) {
+                showReview(currentReview - 1);
+            }
+        });
+        
+        // Initialize on mobile only
+        function initMobileReviews() {
+            if (window.innerWidth <= 480) {
+                createDots();
+                showReview(0);
+            }
+        }
+        
+        // Initialize and handle resize
+        initMobileReviews();
+        
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (window.innerWidth <= 480) {
+                    initMobileReviews();
+                } else {
+                    // Show all reviews on desktop
+                    reviewCards.forEach(card => {
+                        card.classList.add('active');
+                    });
+                }
+            }, 250);
+        });
+    }
 });
 
 // Custom Color Picker - Add this functionality
